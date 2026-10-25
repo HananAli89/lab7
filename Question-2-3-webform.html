@@ -27,25 +27,32 @@
     </head>
     <body>
         <h1>Feedback form</h1>
+        <!-- added a note before the form and "required" text to each required field, so screen reader users know which fields are required before submitting the form -->
+        <p>Fields marked "(required)" must be completed.</p>
     <form>
+      <!-- added for attribute to each label that matches the input id, so screen reader users can hear the label for the input field -->
         <div class="control">
-          <label>Full name <span class="required">*</span></label><input id="name" name="name" type="text" />
+          <label for="name">Full name <span class="required">(required)</span></label><input id="name" name="name" type="text" />
         </div>
         <div class="control">
-          <label>Biography</label><textarea id="biography" name="biography" type="text"></textarea>
-          <span>Include examples on your skills in JavaScript.</span>
+          <!-- added aria-describedby attribute to link the hint to the textarea, so screen reader users can hear the hint -->
+          <label for="biography">Biography <span class="required">(required)</span></label><textarea id="biography" name="biography" type="text" aria-describedby="biography-hint"></textarea>
+          <span id="biography-hint">Include examples on your skills in JavaScript.</span>
         </div>
         
-          <div>Gender</div>
+        <!-- used a fieldset and legend to group the gender options, so screen reader users can hear and understand the question -->
+        <fieldset>
+          <legend>Gender <span class="required">(required)</span></legend>
           <div class="control">
-            <input id="gender_male" name="gender" type="radio" value="male" /><label>Male</label>
+            <input id="gender_male" name="gender" type="radio" value="male" /><label for="gender_male">Male</label>
           </div>
           <div class="control">
-            <input id="gender_female" name="gender" type="radio" value="female" /><label>Female</label>
+            <input id="gender_female" name="gender" type="radio" value="female" /><label for="gender_female">Female</label>
           </div>
+        </fieldset>
         
         <div class="control">
-          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1" /><label>I accept the terms and conditions</label>
+          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1" /><label for="accept_agbs">I accept the terms and conditions <span class="required">(required)</span></label>
         </div>
         <div class="control">
           <input name="validate" type="hidden" value="1" /><input type="submit" value="Register" />
@@ -92,7 +99,10 @@
               $referencedElement = $input;
             }
       // R.G. hint: fix next line ;)
-            $error = $('<a>' + message + '</a>');
+            // added href that links error to its input field, so screen reader/keyboard users can navigate to the input field from the error message
+            // added id to match the field's aria-describedby attribute, so screen reader users can hear the error message when they focus on the input field
+            // added class="error" so the "All inputs are valid" alert only appears when all inputs are valid and not when there are errors
+            $error = $('<a id="' + input + '_description" href="#' + $referencedElement.attr('id') + '" class="error">' + message + '</a>');
             $error.click(function (e) {
               // If we rely on the link's href pointing to the input's ID, it doesn't trigger forms mode in screen readers
               $referencedElement.focus();
@@ -103,7 +113,9 @@
       
             if ($(':not(form):focus').length === 0) {
               // See https://stackoverflow.com/questions/46134247/jquery-setting-focus-doesnt-work-in-ie11/
-            
+             // moved the focus to the error fieldset, so keyboard and screen reader users can hear the error messages when they submit the form without filling out required fields
+              $('fieldset.errors').attr('tabindex', '-1').focus();
+
             }
           } else {
             if ($input.is(':checkbox')) {
