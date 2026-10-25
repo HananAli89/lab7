@@ -280,6 +280,7 @@ article p {
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/coffee.jpg?raw=true" alt="A cup of coffee on a table" />
           <div class="info">
             <h3 class="headline">San Franciscans are losing their minds over this third wave, artisanal, fair trade, handcrafted, locavore coffee. <a href="#">Read More</a></h3>
+          </div> <!-- added missing closing div -->
         </article>
         <article>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/football.jpg?raw=true" alt="A football player hands the ball off to another player" />
@@ -295,7 +296,9 @@ article p {
 <footer class="newsletter">
   <div class="container">
     <h3>Like the Funion? Consider joining our newsletter!</h3>
-    <input type="text">
+    <!-- added label for the email input field, so screen reader users can understand what information to enter -->
+    <label for="newsletter-email">Email address</label>
+    <input type="text" id="newsletter-email" name="newsletter-email">
     <!-- replaced onfocus with onclick, so the window opens when the button is clicked and not when keyboard users tab to it -->
     <button type="button" onclick="getFocus()">Sign up</button>
   </div>
