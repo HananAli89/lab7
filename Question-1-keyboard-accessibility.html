@@ -24,9 +24,9 @@ body {
 a{
   color: #006b3a;
 }
-main a{
-  outline: none;
-}
+
+/* removed styling "outline:none" from links in main, so keyboard users can see the focus indicators. */
+
 h2 {
   margin-top: 0;
 }
@@ -61,6 +61,11 @@ header {
   position: absolute;
   left: -10000px;
   top: -10000px;
+}
+
+/* brings the skip link into view when focused */
+.skip-link:focus {
+  position: static;
 }
 
 .menu {
@@ -197,6 +202,8 @@ article p {
 </head>
 
 <body>
+  <!-- added skip link so keyboard users can skip past the menu to main content -->
+<a href="#main" class="offscreen skip-link">Skip to main content</a>
   <header>
 
     <div class="container">
@@ -206,7 +213,8 @@ article p {
       <nav class="menu">
         <a href="#">Home</a>
         <a href="#">Politics</a>
-        <a href="#" tabindex="-1">Business</a>
+        <!-- removed tabindex="-1", so keyboard users can Tab to the link -->
+        <a href="#">Business</a>
         <a href="#">Entertainment</a>
         <a href="#">Sports</a>
         <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
@@ -214,15 +222,10 @@ article p {
       </nav>
     </div>
   </header>
-  <div class="newsletter">
-    <div class="container">
-      <h3>Like the Funion? Consider joining our newsletter!</h3>
-      <input type="text">
-      <button type="button" onfocus="getFocus()">Sign up</button></div>
-      
-    </div>
-  </div>
-  <main class="container">
+
+  <!-- moved the newsletter from here to the footer after main -->
+  
+  <main id = "main" class="container" tabindex="-1">
     <h2 class="offscreen">Top story</h2>
     <article class="main-story">
       <img class="pull-right" src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/cat.jpg?raw=true" alt="A cat staring menacingly off into space">
@@ -239,11 +242,13 @@ article p {
     <div class="side-by-side">
       <div class="column">
         <div class="tier-header">
-          <h2 tabindex="0">In the news</h2>
+          <!-- removed tabindex="0" as the heading is not an interactive element, so keyboard users don't have to tab through it -->
+          <h2>In the news</h2>
         </div>
         <article>
           <h3 class="headline">Bee wonders if maybe everyone else is a drone and he's the only one who has it "figured out."</h3>
-          <p><a href="#" tabindex="1"><b>Read More</b></a></p>
+          <!-- removed tabindex="1", so keyboard users can Tab in the correct order of DOM -->
+          <p><a href="#"><b>Read More</b></a></p>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/bee.jpg?raw=true" alt="A bee on top of a flower" />
         </article>
       </div>
@@ -286,10 +291,15 @@ article p {
     </div>
     
   </main>
-  <!--   stuff can be added here :)
-  <footer>
-  </footer>
-  -->
+  <!-- moved the newsletter after main to the footer, so keyboard users can navigate to it in the right order and it's identified as a footer landmark -->
+<footer class="newsletter">
+  <div class="container">
+    <h3>Like the Funion? Consider joining our newsletter!</h3>
+    <input type="text">
+    <!-- replaced onfocus with onclick, so the window opens when the button is clicked and not when keyboard users tab to it -->
+    <button type="button" onclick="getFocus()">Sign up</button>
+  </div>
+</footer>
   
   <script>
     function getFocus() {
